@@ -17,9 +17,11 @@ app.use(bodyParser.urlencoded({exteded: true}));
 
 app.get("/api/get", (req, res)=> {
 
-    const projectName = req.body.projectName 
-    const issueName = req.body.issueName 
-    const description = req.body.description
+    const issueName = req.body.issueName
+    const issueDec = req.body.issueDec
+    const projId = req.body.projId
+    const teamId = req.body.teamId
+    const userId = req.body.userId
     
     const sqlInsert = "SELECT * FROM issues";
     db.query(sqlInsert, (err, result) => {
@@ -27,15 +29,35 @@ app.get("/api/get", (req, res)=> {
     });
 });
 
+app.get("/api/get_login", (req, res) => {
+    const email = req.body.email; 
+    const team_id = req.body.email; 
+
+    const sqlInsert = "SELECT * FROM users"; 
+    db.query(sqlInsert, (err, result) => {
+        res.send(result)
+    });
+});
+
+app.post("/api/insert_login", (req, res) => {
+    const email = req.body.email; 
+    const team_id = req.body.email; 
+
+
+})
+
 
 app.post("/api/insert", (req, res)=> {
 
-    const projectName = req.body.projectName 
-    const issueName = req.body.issueName 
-    const description = req.body.description
+    const issueName = req.body.issueName
+    const issueDec = req.body.issueDec
+    const projId = req.body.projId
+    const teamId = req.body.teamId
+    const userId = req.body.userId
     
-    const sqlInsert = "INSERT INTO issuetracker_db.issues (team_name, issue_name, issue_description) VALUES (?, ?, ?);";
-    db.query(sqlInsert, [projectName, issueName, description], (err, result) => {
+    const sqlInsert = "INSERT INTO issuetracker_db.issue (issue_name, issue_des, project_id, team_id, user_id) VALUES (?, ?, ?, ?, ?);";
+    db.query(sqlInsert, [issueName, issueDec, projId, teamId, userId], (err, result) => {
+        console.log("In server:index.js ")
         console.log(err); 
     });
 });
